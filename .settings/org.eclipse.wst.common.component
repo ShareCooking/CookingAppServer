@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+                                                       
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <wb-module deploy-name="niceapp-1.0.15-SNAPSHOT">
+                                                                                
+        
+        
+        
+        
+        
+        
+        
+        <wb-resource deploy-path="/WEB-INF/web.xml" source-path="/src/main/webapp/WEB-INF/web.xml"/>
+                                                                                                        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+                                                                                                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+                                                                                                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+                                                                                
+        
+        
+        
+        
+        
+        
+        
+        <wb-resource deploy-path="/" source-path="/webapp"/>
+                                                                                
+        
+        
+        
+        
+        
+        
+        
+        <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
+                                                                                
+        
+        
+        
+        
+        
+        
+        
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+                                                                                                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <property name="java-output-path" value="/niceapp/target/classes"/>
+                                                                        
+        
+        
+        
+        
+        
+        
+        <property name="component.exclusion.patterns"/>
+        <property name="context-root" value="cookingAppServer"/>
+                                                                                            
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    </wb-module>
+                                                
+
+
+
+
+
+
+
+
+
+
+</project-modules>

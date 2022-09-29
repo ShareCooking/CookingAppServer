@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!-- 변수 지정 -->
+    <property name="LOG_DIR" value="/app_logs/cookingAppServer" />
+    <property name="LOG_PATH_NAME" value="${LOG_DIR}/cooking.log" />
+
+    <!-- File Appender -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH_NAME}</file>
+        <!-- 일자별로 로그파일 적용하기 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH_NAME}.%d{yyyyMMdd}</fileNamePattern>
+            <maxHistory>7</maxHistory> <!-- 일자별 백업파일의 보관기간 -->
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] [%t] [%F]%M\(%L\) : %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Console Appender -->
+    <appender name="STDOUT"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] [%t] [%F]%M\(%L\) : %m%n</pattern>
+		</layout>
+	</appender>
+
+	<!-- TRACE > DEBUG > INFO > WARN > ERROR, 대소문자 구분 안함 -->
+	<!-- profile 을 읽어서 appender 을 설정할수 있다.(phase별 파일을 안만들어도 되는 좋은 기능) -->
+	<!-- Application Loggers -->
+	<logger name="com.cooking"  level="debug" additivity="false">
+		<appender-ref ref="FILE" />
+		<appender-ref ref="STDOUT" />
+	</logger>
+
+	<!-- Query Loggers -->
+	<logger name="org.mybatis"  level="debug" additivity="false">
+		<appender-ref ref="FILE" />
+		<appender-ref ref="STDOUT" />
+	</logger>
+
+	<logger name="jdbc" level="debug"/>
+	<logger name="jdbc.connection" additivity="false">
+        <level value="WARN"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+ 
+    <logger name="jdbc.audit" additivity="false">
+        <level value="WARN"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+ 
+    <logger name="jdbc.sqlonly" additivity="false">
+        <level value="WARN"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+ 
+    <logger name="jdbc.resultset" additivity="false">
+        <level value="WARN"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+     
+    <logger name="jdbc.resultsettable" additivity="false">
+        <level value="debug"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+
+ 	<logger name="jdbc.sqltiming" >
+ 		<level value = "debug"/>
+ 		<appender-ref ref = "FILE"/>
+ 	</logger>
+
+	<root level="debug">
+		<appender-ref ref="FILE" />
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>

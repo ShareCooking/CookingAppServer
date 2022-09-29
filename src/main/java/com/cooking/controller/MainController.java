@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MainController{
 
 	@Autowired
-	private MainService mainService;
+	private MainService mainService; 
 
 	/* 대쉬보드 조회 */
 	@ResponseBody

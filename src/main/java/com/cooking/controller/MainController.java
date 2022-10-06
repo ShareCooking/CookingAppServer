@@ -24,10 +24,8 @@ public class MainController{
 	/* 대쉬보드 조회 */
 	@ResponseBody
 	@RequestMapping(value = "/main.do")
-	public String main(HttpServletRequest request, HttpServletResponse response){
-
-
-		return "main";
+	public String main(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		return mainService.main();
 
 	}
 	

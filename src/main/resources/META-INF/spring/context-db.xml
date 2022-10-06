@@ -3,17 +3,26 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jee="http://www.springframework.org/schema/jee"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 						http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 						http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
 	 					">
-
-	<!-- BAQDBP01 -->
+	<context:annotation-config />
+	<context:property-placeholder order="1" ignore-unresolvable="true" location="classpath:META-INF/config/config.properties"/>
+	 					
+	<bean  id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driver}"/>
+		<property name="url" value="${jdbc.url}"/>
+		<property name="username" value="${jdbc.user}"/>
+		<property name="password" value="${jdbc.pw}"/>
+	</bean>
 	
 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref=""/>
+		<property name="dataSource" ref="dataSource"/>
 		<property name="configLocation"  value="classpath:META-INF/mybatis/mybatis-config.xml" />
 		<property name="mapperLocations" value="classpath:META-INF/mybatis/mappers/*.xml" />
 		<property name="typeAliasesPackage" value="com.cooking.vo" />
@@ -35,12 +44,12 @@
 	</bean>
 
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref=""/>
+		<property name="dataSource" ref="dataSource"/>
 		<property name="defaultTimeout" value="30" /> <!-- 30 sec -->
 	</bean>
 
 	<aop:config>
-		<aop:pointcut id="serviceOperation" expression="execution(* com.cooking..*ServiceImpl.*(..))"/>
+		<aop:pointcut id="serviceOperation" expression="execution(* com.cooking.*ServiceImpl.*(..))"/>
 		<aop:advisor pointcut-ref="serviceOperation" advice-ref="txAdvice" />
 	</aop:config>
 

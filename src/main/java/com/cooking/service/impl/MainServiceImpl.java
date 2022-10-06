@@ -16,10 +16,9 @@ public class MainServiceImpl implements MainService{
 	private SqlSession sqlSession;
 	
 	@Override
-	public String main(String main) throws Exception {
-				
-		return "main";
+	public String main() throws Exception {
+		String result = sqlSession.selectOne("Main.mainSelect");
+		return result;
 	}
 	
-
 }

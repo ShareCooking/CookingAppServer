@@ -3,9 +3,18 @@
 <!--  -->
 <mapper namespace="Main">
 
-	<select id="mainSelect" resultType="String">
-		SELECT emp_nm FROM TB_TEST
+	<!-- <select id="mainSelect" resultType="String">
+		SELECT emp_nm 
+			FROM TB_TEST
 		WHERE emp_no = '000001'
+	</select> -->
+	
+	<select id = "login" parameterType="UserVO" resultType="int">
+		SELECT COUNT(*) 
+			FROM TB_USER
+		WHERE USER_ID = '${user_id}'
+			AND USER_PW = '${user_pw}'
 	</select>
+
 	
 </mapper>

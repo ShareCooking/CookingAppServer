@@ -9,4 +9,6 @@ public interface MainService {
 	//String main() throws Exception;
 	
 	Map<String,Object> login(UserVO userVO) throws Exception;
+	
+	Map<String,Object> resist(UserVO userVO) throws Exception;
 }

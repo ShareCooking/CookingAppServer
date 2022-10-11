@@ -1,7 +1,5 @@
 package com.cooking.controller;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -38,15 +37,37 @@ public class MainController{
 	 * }
 	 */
 	
-	/*로그인*/
+	/**
+	 * 로그인
+	 * 
+	 * @param request 
+	 * @param response : 성공여부
+	 * @param userVO
+	 * @return : Map
+	 * @throws Exception
+	 * 
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/login.do")
-	public Map<String,Object> login(HttpServletRequest request, HttpServletResponse response, UserVO userVO) throws Exception{
-		
-		System.out.println(userVO);
+	public Map<String,Object> login(HttpServletRequest request, HttpServletResponse response, @RequestBody UserVO userVO) throws Exception{
 		Map<String,Object> result = mainService.login(userVO);
-		
-		
+		return result;
+	}
+	
+	/**
+	 * 회원가입
+	 * 
+	 * @param request 
+	 * @param response : 회원가입 여부
+	 * @param userVO
+	 * @return : Map
+	 * @throws Exception
+	 * 
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/resist.do")
+	public Map<String,Object> resist(HttpServletRequest request, HttpServletResponse response, @RequestBody UserVO userVO) throws Exception{
+		Map<String,Object> result = mainService.resist(userVO);
 		return result;
 	}
 }

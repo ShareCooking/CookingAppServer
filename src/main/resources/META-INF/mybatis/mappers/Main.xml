@@ -12,9 +12,40 @@
 	<select id = "login" parameterType="UserVO" resultType="int">
 		SELECT COUNT(*) 
 			FROM TB_USER
-		WHERE USER_ID = '${user_id}'
-			AND USER_PW = '${user_pw}'
+		WHERE USER_ID = #{user_id}
+			AND USER_PW = #{user_pw}
 	</select>
-
 	
+	<insert id = "UserInsert" parameterType="UserVO" >
+		INSERT ALL
+			INTO TB_USER 
+				VALUES (
+					user_seq.nextval,
+					#{user_id},
+					#{user_pw},
+					SYSDATE
+				)
+			INTO TB_USER_INFO 
+				VALUES (
+					user_seq.nextval,
+					#{user_nickname},
+					#{user_addr1},
+					#{user_addr2},
+					#{user_addr3},
+					#{user_tel1},
+					#{user_tel2},
+					#{user_tel3},
+					#{user_btd}
+				)
+			INTO TB_USER_PW_OLD 
+				VALUES (
+					user_seq.nextval,
+					#{user_pw},
+					'',	/*과거 데이터 없음으로 초기값 빈칸*/
+					'',	/*과거 데이터 없음으로 초기값 빈칸*/
+					'',	/*과거 데이터 없음으로 초기값 빈칸*/
+					''	/*과거 데이터 없음으로 초기값 빈칸*/
+				)
+		SELECT * FROM DUAL
+	</insert>
 </mapper>

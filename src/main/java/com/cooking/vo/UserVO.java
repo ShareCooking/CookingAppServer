@@ -12,10 +12,10 @@ public class UserVO {
 	private String user_addr1;
 	private String user_addr2;
 	private String user_addr3;
-	private int user_tel1;
-	private int user_tel2;
-	private int user_tel3;
-	private int user_btd;
+	private String user_tel1;
+	private String user_tel2;
+	private String user_tel3;
+	private String user_btd;
 	
 
 	private String user_pw_old1;

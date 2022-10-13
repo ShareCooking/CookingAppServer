@@ -42,7 +42,6 @@ public class TokenManager {
     }
 
     public String encryptToken(Map<String, Object> map) {
-    	if(!map.get("vndrCd").equals("") && !map.get("userId").equals("")) {
     		
     		try {
     			final JsonWebSignature jws = new JsonWebSignature();
@@ -61,7 +60,6 @@ public class TokenManager {
     		} catch (JoseException e) {
     			e.printStackTrace();
     		}
-    	}
 
         return null;
     }

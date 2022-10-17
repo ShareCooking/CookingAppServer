@@ -1,0 +1,10 @@
+services:
+
+  oracle:
+    image: pengbai/docker-oracle-xe-11g-r2
+    container_name: oracledatabase
+    ports:
+      - 1521:1521
+      - 8080:8080
+#    environment:
+#      ORACLE_PASSWORD: root

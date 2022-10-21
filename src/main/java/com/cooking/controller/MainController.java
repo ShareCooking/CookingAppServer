@@ -3,12 +3,10 @@ package com.cooking.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,8 +55,6 @@ public class MainController{
 		Map<String,Object> result =new HashMap<String,Object>();
 		try {
 			result = mainService.login(userVO);
-			response.addHeader("Token", (String) result.get("Token"));		//헤더에 토큰 저장
-			response.addHeader("user_id",(String) result.get("user_id"));	//헤더에 id 저장
 		}catch(Exception e) {
 			e.printStackTrace();
 			result.put("message", MessageUtil.getMessage("error.login"));
@@ -87,7 +83,6 @@ public class MainController{
 			result.put("message", MessageUtil.getMessage("error.insert"));
 		}
 		return result;
-		
 	}
 	
 	/**
@@ -99,6 +94,7 @@ public class MainController{
 	 * @return
 	 * @throws Exception
 	 */
+	/*
 	@ResponseBody
 	@RequestMapping(value = "/logout.do")
 	public Map<String,Object> logout(HttpServletRequest request, HttpServletResponse response, @RequestBody UserVO userVO) throws Exception{
@@ -111,6 +107,7 @@ public class MainController{
 		}
 		return result;
 	}
+	*/
 	
 	/**
 	 * 비밀번호 변경

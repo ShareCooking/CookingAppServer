@@ -52,46 +52,39 @@
 	
 	<update id="TokenUpdate" parameterType="UserVO">
 		UPDATE TB_USER 
-			SET user_token = #{user_token}
-		WHERE user_id = #{user_id}
+			SET USER_TOKEN = #{user_token}
+		WHERE USER_ID = #{user_id}
 	</update>
 	
-	<update id="logout" parameterType="UserVO">
+	<!-- <update id="logout" parameterType="UserVO">
 		UPDATE TB_USER 
 			SET user_token = ''	/*로그아웃 하면 토큰값 초기화*/
 		WHERE user_id = #{user_id}
-	</update>
-	
-	<select id="tokenSelect" parameterType="UserVO" resultType="int">
-		SELECT COUNT(*)
-			FROM TB_USER
-		WHERE USER_TOKEN = #{user_token}
-	</select>
+	</update> -->
 	
 	<select id="pwSelect" parameterType="UserVO" resultType="map">
 		SELECT 	user_seq,
 		        user_pw_old1,
 		        user_pw_old2,
 		        user_pw_old3,
-		        user_pw_old4,
-		        user_pw_old5
+		        user_pw_old4
 		    FROM TB_USER_PW_OLD
 		WHERE USER_SEQ = (select user_seq from tb_user where user_id = #{user_id})
 	</select>
 	
-	<update id="pwChangeMain" parameterType="UserVO">
+	<update id="pwChangeMain" parameterType="map">
 		update tb_user
-		    set user_pw = #{user_pw}
-		where user_id = #{user_id}
+		    set user_pw = #{USER_PW_NEW}
+		where user_seq = #{USER_SEQ}
 	</update>
 	
-	<update id="pwChangeOld" parameterType="UserVO">
+	<update id="pwChangeOld" parameterType="map">
 		update tb_user_pw_old
-		    set user_pw_old1 = #{user_pw_old1},
-		        user_pw_old2 = #{user_pw_old2},
-		        user_pw_old3 = #{user_pw_old3},
-		        user_pw_old4 = #{user_pw_old4},
-		        user_pw_old5 = #{user_pw_old5}
-		where user_seq = #{user_seq}
+		    set user_pw_old1 = #{USER_PW_NEW},
+		        user_pw_old2 = #{USER_PW_OLD1},
+		        user_pw_old3 = #{USER_PW_OLD2},
+		        user_pw_old4 = #{USER_PW_OLD3},
+		        user_pw_old5 = #{USER_PW_OLD4}
+		where user_seq = #{USER_SEQ}
 	</update>
 </mapper>

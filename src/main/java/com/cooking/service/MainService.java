@@ -12,9 +12,7 @@ public interface MainService {
 	
 	Map<String,Object> resist(UserVO userVO) throws Exception;
 	
-	Map<String,Object> logout(UserVO userVO) throws Exception;
-	
-	Map<String, Object> tokenSelect(UserVO userVO) throws Exception;
+	//Map<String,Object> logout(UserVO userVO) throws Exception;
 	
 	Map<String, Object> pwChange(UserVO userVO) throws Exception;
 }

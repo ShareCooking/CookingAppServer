@@ -2,13 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--  -->
 <mapper namespace="Main">
-
-	<!-- <select id="mainSelect" resultType="String">
-		SELECT emp_nm 
-			FROM TB_TEST
-		WHERE emp_no = '000001'
-	</select> -->
-	
 	<select id = "login" parameterType="UserVO" resultType="int">
 		SELECT COUNT(*) 
 			FROM TB_USER
@@ -23,7 +16,8 @@
 					user_seq.nextval,
 					#{user_id},
 					#{user_pw},
-					SYSDATE
+					SYSDATE,
+					''
 				)
 			INTO TB_USER_INFO 
 				VALUES (
@@ -48,4 +42,37 @@
 				)
 		SELECT * FROM DUAL
 	</insert>
+	
+	<update id="TokenUpdate" parameterType="UserVO">
+		UPDATE TB_USER 
+			SET USER_TOKEN = #{user_token}
+		WHERE USER_ID = #{user_id}
+	</update>
+	
+	<select id="pwSelect" parameterType="UserVO" resultType="map">
+		SELECT 
+			p.*
+		FROM tb_user u
+			JOIN 
+				tb_user_pw_old p
+			ON 
+				u.user_seq = p.user_seq
+		WHERE u.user_id = #{user_id}
+	</select>
+	
+	<update id="pwChangeMain" parameterType="map">
+		update tb_user
+		    set user_pw = #{USER_PW_NEW}
+		where user_seq = #{USER_SEQ}
+	</update>
+	
+	<update id="pwChangeOld" parameterType="map">
+		update tb_user_pw_old
+		    set user_pw_old1 = #{USER_PW_NEW},
+		        user_pw_old2 = #{USER_PW_OLD1},
+		        user_pw_old3 = #{USER_PW_OLD2},
+		        user_pw_old4 = #{USER_PW_OLD3},
+		        user_pw_old5 = #{USER_PW_OLD4}
+		where user_seq = #{USER_SEQ}
+	</update>
 </mapper>

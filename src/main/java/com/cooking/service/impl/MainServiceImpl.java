@@ -21,12 +21,6 @@ public class MainServiceImpl implements MainService{
 	@Resource(name="sqlSession")
 	private SqlSession sqlSession;
 	
-	/*
-	 * @Override public String main() throws Exception { String result =
-	 * sqlSession.selectOne("Main.mainSelect"); return result; }
-	 */
-
-
 	@Override
 	public Map<String, Object> login(UserVO userVO) throws Exception {
 		//비밀번호 암호화 해서 비교
@@ -80,27 +74,6 @@ public class MainServiceImpl implements MainService{
 		result.put("body", parambody);
 		return result;
 	}
-
-	/*
-	@Override
-	public Map<String, Object> logout(UserVO userVO) throws Exception {
-		Map<String,Object> result = new HashMap<>();
-		Map<String,Object> paramheader =new HashMap<String,Object>();
-		Map<String,Object> parambody =new HashMap<String,Object>();
-		
-		int cnt = sqlSession.update("Main.logout",userVO);
-		if(cnt == 1) {
-			paramheader.put("msg","로그아웃 성공");
-			parambody.put("logout","Y");
-		}else {
-			paramheader.put("msg","회원가입중 에러 발생! 관리자에게 문의하세요.");
-			parambody.put("logout","N");
-		}
-		result.put("header", paramheader);
-		result.put("body", parambody);
-		return result;
-	}
-	*/
 	
 	@Override
 	public Map<String, Object> pwChange(UserVO userVO) throws Exception {

@@ -27,18 +27,6 @@ public class MainController{
 	@Autowired
 	private MainService mainService; 
 	
-	/* 대쉬보드 조회 */
-	/*
-	 * @ResponseBody
-	 * 
-	 * @RequestMapping(value = "/main.do") public String main(HttpServletRequest
-	 * request, HttpServletResponse response) throws Exception{ return
-	 * mainService.main();
-	 * 
-	 * 
-	 * }
-	 */
-	
 	/**
 	 * 로그인
 	 * 
@@ -84,30 +72,6 @@ public class MainController{
 		}
 		return result;
 	}
-	
-	/**
-	 * 로그아웃
-	 * 
-	 * @param request
-	 * @param response : 로그아웃 여부
-	 * @param userVO
-	 * @return
-	 * @throws Exception
-	 */
-	/*
-	@ResponseBody
-	@RequestMapping(value = "/logout.do")
-	public Map<String,Object> logout(HttpServletRequest request, HttpServletResponse response, @RequestBody UserVO userVO) throws Exception{
-		Map<String,Object> result =new HashMap<String,Object>();
-		try {
-			result = mainService.logout(userVO);
-		}catch(Exception e) {
-			e.printStackTrace();
-			result.put("message", MessageUtil.getMessage("error.logout"));
-		}
-		return result;
-	}
-	*/
 	
 	/**
 	 * 비밀번호 변경

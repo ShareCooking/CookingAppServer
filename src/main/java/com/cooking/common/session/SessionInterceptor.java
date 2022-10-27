@@ -57,12 +57,12 @@ public class SessionInterceptor implements HandlerInterceptor {
 
 	@Override
 	public void afterCompletion(HttpServletRequest req, HttpServletResponse res, Object obj, Exception exc) throws Exception {
-		System.out.println("afterCompletion");
+		
 	}
 
 	@Override
 	public void postHandle(HttpServletRequest req, HttpServletResponse res, Object obj, ModelAndView mav) throws Exception {
-		System.out.println("postHandle");
+		
 	}
 
 }

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cooking.common.util.MessageUtil;
 import com.cooking.common.util.TokenManager;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,39 +19,49 @@ public class SessionInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object obj) throws Exception {
 		String uri = req.getRequestURI();
 		
+		//resources 경로 check
 		if (uri.startsWith("/resources")) {
-			log.debug("resources 로 시작됨.");
+			log.debug(MessageUtil.getMessage("001"));
 			return false; 
 		}
 		
 		//null check
 		if(req.getHeader("token")==null || req.getHeader("userId")==null) {
-			log.debug("token,userId 없음");
+			log.debug(MessageUtil.getMessage("002"));
 			return false;
+		}
+		
+		//로그인,로그아웃 상관없이 true
+		if(uri.contains("idCheck.do")||uri.contains("nicknameCheck.do")||uri.contains("pwChange.do")) {
+			log.debug(MessageUtil.getMessage("000"));
+			return true;
 		}
 		
 		//로그인,로그아웃 검사
 		if(!req.getHeader("userId").equals("") && !req.getHeader("token").equals("")) {
-			log.debug("로그인 상태");
-			String token = req.getHeader("token");		//헤더로 토큰값 가져오기
-			String user_id = req.getHeader("userId");	//헤더로 ID값 가져오기
+			log.debug(MessageUtil.getMessage("003"));
+			String token = req.getHeader("token");
+			String user_id = req.getHeader("userId");
 			
+			//토큰값 복호화
 			TokenManager tokenManager = new TokenManager();
 			Map<String, Object> deToken = tokenManager.decryptToken(token);
-			if(deToken.get("id").equals(user_id)) {	//복호화한 토큰값과 ID 비교
-				if(uri.startsWith("/cooking/main/login.do")||uri.startsWith("/cooking/main/resist.do")) {
-					log.debug("로그인 상태 : 로그인,회원가입 페이지 접근불가");
+			
+			//복호화한 토큰값과 ID 비교
+			if(deToken.get("id").equals(user_id)) {	
+				if(uri.contains("login.do")||uri.contains("userCreate.do")) {
+					log.debug(MessageUtil.getMessage("005"));
 					return false;
 				}
 			}
 		}else {
-			log.debug("로그아웃 상태");
-			if(!(uri.startsWith("/cooking/main/login.do")||uri.startsWith("/cooking/main/resist.do"))) {
-				log.debug("로그아웃 상태 : 로그인,회원가입 페이지외에 접근불가");
+			log.debug(MessageUtil.getMessage("004"));
+			if(!(uri.contains("login.do")||uri.contains("userCreate.do"))) {
+				log.debug(MessageUtil.getMessage("006"));
 				return false;
 			}
 		}
-		
+		log.debug(MessageUtil.getMessage("000"));
 		return true;
 	}
 	

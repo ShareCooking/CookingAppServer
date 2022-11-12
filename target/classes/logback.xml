@@ -2,7 +2,7 @@
 <configuration>
 
 	<!-- 변수 지정 -->
-    <property name="LOG_DIR" value="/app_logs/cookingAppServer" />
+    <property name="LOG_DIR" value="C:/log/cookingAppServer" />
     <property name="LOG_PATH_NAME" value="${LOG_DIR}/cooking.log" />
 
     <!-- File Appender -->

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--Login-->
+<mapper namespace="Login">
+	<!-- ID,PW 입력받아서 계정체크 -->
+	<select id="loginCheck" parameterType="UserVO" resultType="int">
+		SELECT COUNT(*) 
+			FROM TB_USER
+		WHERE USER_ID = #{user_id}
+			AND USER_PW = #{user_pw}
+	</select>
+	
+	<!-- 로그인 -->
+	<update id="login" parameterType="UserVO">
+		UPDATE TB_USER 
+			SET 
+				USER_TOKEN = #{user_token},
+				USER_HISTORY = TO_DATE(#{user_history},'YYYY-MM-DD HH24:MI:SS')
+		WHERE USER_ID = #{user_id}
+	</update>
+	
+	<!-- 회원정보 최초 저장 -->
+	<insert id = "userInsert" parameterType="UserVO" >
+		INSERT ALL
+			INTO TB_USER 
+				VALUES (
+					#{user_id},
+					user_seq.nextval,
+					#{user_pw},
+					'',	/*USER_TOKEN*/
+					''	/*USER_HISTORY*/
+				)
+			INTO TB_USER_INFO 
+				VALUES (
+					#{user_id},
+					user_seq.nextval,
+					#{user_nickname},
+					#{user_addr1},
+					#{user_addr2},
+					#{user_addr3},
+					#{user_tel1},
+					#{user_tel2},
+					#{user_tel3},
+					#{user_btd}
+				)
+			INTO TB_USER_PW_OLD 
+				VALUES (
+					#{user_id},
+					user_seq.nextval,
+					#{user_pw},
+					'',	/*과거 데이터 없음으로 초기값 빈칸*/
+					'',	/*과거 데이터 없음으로 초기값 빈칸*/
+					'',	/*과거 데이터 없음으로 초기값 빈칸*/
+					''	/*과거 데이터 없음으로 초기값 빈칸*/
+				)
+		SELECT * FROM DUAL
+	</insert>
+	
+	<!-- ID 중복체크 -->
+	<select id="idCheck" parameterType="UserVO" resultType="int">
+		SELECT
+		    COUNT(*) AS CNT
+		FROM
+		    TB_USER
+		WHERE
+		    USER_ID = #{user_id}
+	</select>
+	
+	<!-- 닉네임 중복체크 -->
+	<select id="nicknameCheck" parameterType="UserVO" resultType="int">
+		SELECT
+		    COUNT(*) AS CNT
+		FROM
+		    TB_USER_INFO
+		WHERE
+		    USER_NICKNAME = #{user_nickname}
+	</select>
+	
+	<!-- 비밀번호 history 조회 -->
+	<select id="pwSelect" parameterType="UserVO" resultType="UserVO">
+		SELECT 
+			P.USER_SEQ,
+			P.USER_PW_OLD1,
+			P.USER_PW_OLD2,
+			P.USER_PW_OLD3,
+			P.USER_PW_OLD4,
+			P.USER_PW_OLD5,
+			U.USER_ID
+		FROM TB_USER U
+			JOIN 
+				TB_USER_PW_OLD P
+			ON 
+				U.USER_SEQ = P.USER_SEQ
+		WHERE U.USER_ID = #{user_id}
+	</select>
+	
+	<!-- PW 중복체크 (과거 PW와 비교) -->
+	<select id="pwCheck" parameterType="UserVO" resultType="int">
+		SELECT
+		    COUNT(*) AS CNT
+		FROM
+		    TB_USER_PW_OLD
+		WHERE
+		        USER_SEQ = #{user_seq}
+		    AND USER_PW_OLD1 != #{user_pw_new}
+		    <if test="user_pw_old2 != '' and user_pw_old2 != null">
+		    	AND USER_PW_OLD2 != #{user_pw_new}
+		    </if>
+		    <if test="user_pw_old3 != '' and user_pw_old3 != null">
+		    	AND USER_PW_OLD3 != #{user_pw_new}
+		    </if>
+		    <if test="user_pw_old4 != '' and user_pw_old4 != null">
+		    	AND USER_PW_OLD4 != #{user_pw_new}
+		    </if>
+		    <if test="user_pw_old5 != '' and user_pw_old5 != null">
+		    	AND USER_PW_OLD5 != #{user_pw_new}
+		    </if>
+	</select>
+	
+	<!-- 비밀번호 변경 -->
+	<update id="pwChange" parameterType="UserVO">
+		{
+			CALL
+				BEGIN
+					UPDATE TB_USER
+					    SET USER_PW = #{user_pw_new}
+					WHERE USER_SEQ = #{user_seq};
+					
+					UPDATE TB_USER_PW_OLD
+					    SET USER_PW_OLD1 = #{user_pw_new},
+					        USER_PW_OLD2 = #{user_pw_old1},
+					        USER_PW_OLD3 = #{user_pw_old2},
+					        USER_PW_OLD4 = #{user_pw_old3},
+					        USER_PW_OLD5 = #{user_pw_old4}
+					WHERE USER_SEQ = #{user_seq};
+			END
+		}
+	</update>
+	
+</mapper>

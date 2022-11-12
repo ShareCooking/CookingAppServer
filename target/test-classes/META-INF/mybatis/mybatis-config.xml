@@ -7,7 +7,7 @@
 	<settings>
 	  <setting name="cacheEnabled" value="false"/>
 	  <setting name="useGeneratedKeys" value="false"/>
-	  <setting name="mapUnderscoreToCamelCase" value="true"/>
+	  <setting name="mapUnderscoreToCamelCase" value="false"/>	<!-- CamelCase로 Auto Mapping 되는 기능 off : Snake_case 사용 -->
 	  <setting name="jdbcTypeForNull" value="NULL" />
 	  <setting name="lazyLoadingEnabled" value="true" />
 	</settings>

@@ -7,7 +7,7 @@
 	<settings>
 	  <setting name="cacheEnabled" value="false"/>
 	  <setting name="useGeneratedKeys" value="false"/>
-	  <setting name="mapUnderscoreToCamelCase" value="true"/>
+	  <setting name="mapUnderscoreToCamelCase" value="false"/>	<!-- 낙타표기법 사용X, 스네이크 표기법 사용O -->
 	  <setting name="jdbcTypeForNull" value="NULL" />
 	  <setting name="lazyLoadingEnabled" value="true" />
 	</settings>

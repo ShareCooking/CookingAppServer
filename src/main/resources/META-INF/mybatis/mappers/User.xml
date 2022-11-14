@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--User-->
+<mapper namespace="User">
+	
+	<update id="userUpdate" parameterType="UserVO">
+		UPDATE
+			TB_USER_INFO
+		SET
+			USER_NICKNAME = #{user_nickname},
+			USER_ADDR1 = #{user_addr1},
+			USER_ADDR2 = #{user_addr2},
+			USER_ADDR3 = #{user_addr3},
+			USER_TEL1 = #{user_tel1},
+			USER_TEL2 = #{user_tel2},
+			USER_TEL3 = #{user_tel3},
+			USER_BTD = #{user_btd}
+		WHERE
+			USER_SEQ = #{user_seq}
+	</update>
+	
+	<delete id="userDelete" parameterType="UserVO">
+		{
+		CALL
+		BEGIN 
+			DELETE FROM TB_USER WHERE USER_SEQ = #{user_seq};
+
+			DELETE FROM TB_USER_INFO WHERE USER_SEQ = #{user_seq};
+			
+			DELETE FROM TB_USER_PW_OLD WHERE USER_SEQ = #{user_seq};
+			
+			DELETE FROM TB_LIKE_LIST WHERE USER_SEQ = #{user_seq};
+			
+			DELETE FROM TB_BBS WHERE USER_SEQ = #{user_seq};
+			
+			DELETE FROM TB_BBS_LIKE WHERE USER_SEQ = #{user_seq};
+			
+			DELETE FROM TB_BBS_COMMENT WHERE USER_SEQ = #{user_seq};
+			
+			DELETE FROM TB_BBS_IMG WHERE USER_SEQ = #{user_seq};
+		END
+		}
+	</delete>
+	
+</mapper>

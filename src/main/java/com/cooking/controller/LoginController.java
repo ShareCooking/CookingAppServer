@@ -26,7 +26,6 @@ public class LoginController {
 	@Autowired
 	private LoginService loginService;
 	
-	
 	/**
 	 * 로그인
 	 * 
@@ -46,44 +45,18 @@ public class LoginController {
 			result = loginService.login(userVO);
 		}catch(Exception e) {
 			e.printStackTrace();
-			paramheader.put("reCode","109");
-			paramheader.put("reMsg",MessageUtil.getMessage("109"));
+			paramheader.put("reCode","999");
+			paramheader.put("reMsg",MessageUtil.getMessage("999"));
 			result.put("header", paramheader);
 		}
 		return result;
 	}
 	
 	/**
-	 * 회원가입
-	 * 
-	 * @param request 
-	 * @param response : 회원가입 여부
-	 * @param userVO
-	 * @return : Map
-	 * @throws Exception
-	 * 
-	 */
-	@ResponseBody
-	@RequestMapping(value = "/userCreate.do")
-	public Map<String,Object> userCreate(HttpServletRequest request, HttpServletResponse response, @RequestBody UserVO userVO) throws Exception{
-		Map<String,Object> result = new HashMap<String,Object>();
-		Map<String,Object> paramheader = new HashMap<String,Object>();
-		try {
-			result = loginService.userCreate(userVO);
-		}catch(Exception e) {
-			e.printStackTrace();
-			paramheader.put("reCode","129");
-			paramheader.put("reMsg",MessageUtil.getMessage("129"));
-			result.put("header", paramheader);
-		}
-		return result;
-	}
-	
-	/**
-	 * email중복검사	
+	 * 이메일 중복검사	
 	 * 
 	 * @param request
-	 * @param response email 사용가능 여부
+	 * @param response 이메일 사용가능 여부
 	 * @param userVO
 	 * @return
 	 * @throws Exception
@@ -97,15 +70,22 @@ public class LoginController {
 			result = loginService.emailCheck(userVO);
 		}catch(Exception e) {
 			e.printStackTrace();
-			paramheader.put("reCode","139");
-			paramheader.put("reMsg",MessageUtil.getMessage("139"));
+			paramheader.put("reCode","999");
+			paramheader.put("reMsg",MessageUtil.getMessage("999"));
 			result.put("header", paramheader);
 		}
 		return result;
 	}
 	
-	/*닉넴 중복검사*/
-	
+	/**
+	 * 닉네임 중복검사
+	 * 
+	 * @param request
+	 * @param response 닉네임 사용 가능 여부
+	 * @param userVO
+	 * @return
+	 * @throws Exception
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/nicknameCheck.do")
 	public Map<String,Object> nicknameCheck(HttpServletRequest request, HttpServletResponse response, @RequestBody UserVO userVO) throws Exception{
@@ -115,8 +95,8 @@ public class LoginController {
 			result = loginService.nicknameCheck(userVO);
 		}catch(Exception e) {
 			e.printStackTrace();
-			paramheader.put("reCode","149");
-			paramheader.put("reMsg",MessageUtil.getMessage("149"));
+			paramheader.put("reCode","999");
+			paramheader.put("reMsg",MessageUtil.getMessage("999"));
 			result.put("header", paramheader);
 		}
 		return result;
@@ -140,8 +120,8 @@ public class LoginController {
 			result = loginService.pwChange(userVO);
 		}catch(Exception e) {
 			e.printStackTrace();
-			paramheader.put("reCode","159");
-			paramheader.put("reMsg",MessageUtil.getMessage("159"));
+			paramheader.put("reCode","999");
+			paramheader.put("reMsg",MessageUtil.getMessage("999"));
 			result.put("header", paramheader);
 		}
 		return result;

@@ -20,24 +20,24 @@ public class SessionInterceptor implements HandlerInterceptor {
 		String uri = req.getRequestURI();
 		
 		if (uri.startsWith("/resources")) {
-			log.debug(MessageUtil.getMessage("001"));
+			log.debug(MessageUtil.getMessage("400"));
 			return false; 
 		}
 		
 		//null check
 		if(req.getHeader("user_seq")==null || req.getHeader("user_email")==null || req.getHeader("user_token")==null) {
-			log.debug(MessageUtil.getMessage("002"));
+			log.debug(MessageUtil.getMessage("400"));
 			return false;
 		}
 		
 		if(uri.contains("emailCheck.do")||uri.contains("nicknameCheck.do")||uri.contains("pwChange.do")) {
-			log.debug(MessageUtil.getMessage("000"));
+			log.debug(MessageUtil.getMessage("401"));
 			return true;
 		}
 		
 		//로그인,로그아웃 검사
 		if(!req.getHeader("user_seq").equals("") && !req.getHeader("user_email").equals("") && !req.getHeader("user_token").equals("")) {
-			log.debug(MessageUtil.getMessage("003"));
+			log.debug(MessageUtil.getMessage("402"));
 			String user_seq = req.getHeader("user_seq");		//헤더로 seq 	 값 가져오기
 			String user_email = req.getHeader("user_email");	//헤더로 email 값 가져오기
 			String user_token = req.getHeader("user_token");	//헤더로 token 값 가져오기
@@ -49,19 +49,19 @@ public class SessionInterceptor implements HandlerInterceptor {
 			//복호화한 토큰값과 seq,email 비교
 			if(deToken.get("user_seq").equals(user_seq) && deToken.get("user_email").equals(user_email)) {
 				if(uri.contains("login.do")||uri.contains("userCreate.do")) {
-					log.debug(MessageUtil.getMessage("005"));
+					log.debug(MessageUtil.getMessage("400"));
 					return false;
 				}
 			}
 		}else {
-			log.debug(MessageUtil.getMessage("004"));
+			log.debug(MessageUtil.getMessage("403"));
 			if(!(uri.contains("login.do")||uri.contains("userCreate.do"))) {
-				log.debug(MessageUtil.getMessage("006"));
+				log.debug(MessageUtil.getMessage("400"));
 				return false;
 			}
 		}
 		
-		log.debug(MessageUtil.getMessage("000"));
+		log.debug(MessageUtil.getMessage("401"));
 		return true;
 	}
 	

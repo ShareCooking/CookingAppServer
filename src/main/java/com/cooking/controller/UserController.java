@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +28,33 @@ public class UserController {
 	private UserService userService;
 	
 	/**
-	 * 내 정보 수정
+	 * 회원가입
+	 * 
+	 * @param request 
+	 * @param response : 회원가입 여부
+	 * @param userVO
+	 * @return : Map
+	 * @throws Exception
+	 * 
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/userCreate.do")
+	public Map<String,Object> userCreate(HttpServletRequest request, HttpServletResponse response, @RequestBody UserVO userVO) throws Exception{
+		Map<String,Object> result = new HashMap<String,Object>();
+		Map<String,Object> paramheader = new HashMap<String,Object>();
+		try {
+			result = userService.userCreate(userVO);
+		}catch(Exception e) {
+			e.printStackTrace();
+			paramheader.put("reCode","991");
+			paramheader.put("reMsg",MessageUtil.getMessage("991"));
+			result.put("header", paramheader);
+		}
+		return result;
+	}
+	
+	/**
+	 * 정보수정
 	 * 
 	 * @param request
 	 * @param response 내 정보 수정 성공 여부
@@ -40,22 +67,16 @@ public class UserController {
 	public Map<String,Object> userUpdate(HttpServletRequest request, HttpServletResponse response, @RequestBody UserVO userVO) throws Exception{
 		Map<String,Object> result = new HashMap<String,Object>();
 		Map<String,Object> paramheader = new HashMap<String,Object>();
-		System.out.println(userVO);
-		
 		try {
 			result = userService.userUpdate(userVO);
 		}catch(Exception e) {
 			e.printStackTrace();
-			paramheader.put("reCode","209");
-			paramheader.put("reMsg",MessageUtil.getMessage("209"));
+			paramheader.put("reCode","992");
+			paramheader.put("reMsg",MessageUtil.getMessage("992"));
 			result.put("header", paramheader);
 		}
 		return result;
 	}
-	
-	//나의 좋아요 묵록 확인
-	
-	//나의 게시물 목록 확인
 	
 	/**
 	 * 회원탈퇴 
@@ -75,8 +96,8 @@ public class UserController {
 			result = userService.userDelete(userVO);
 		}catch(Exception e) {
 			e.printStackTrace();
-			paramheader.put("reCode","239");
-			paramheader.put("reMsg",MessageUtil.getMessage("239"));
+			paramheader.put("reCode","993");
+			paramheader.put("reMsg",MessageUtil.getMessage("993"));
 			result.put("header", paramheader);
 		}
 		return result;

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cooking.common.util.MessageUtil;
 import com.cooking.common.util.TokenManager;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,38 +20,48 @@ public class SessionInterceptor implements HandlerInterceptor {
 		String uri = req.getRequestURI();
 		
 		if (uri.startsWith("/resources")) {
-			log.debug("resources 로 시작됨.");
+			log.debug(MessageUtil.getMessage("400"));
 			return false; 
 		}
 		
 		//null check
-		if(req.getHeader("token")==null || req.getHeader("userId")==null) {
-			log.debug("token,userId 없음");
+		if(req.getHeader("user_seq")==null || req.getHeader("user_email")==null || req.getHeader("user_token")==null) {
+			log.debug(MessageUtil.getMessage("400"));
 			return false;
 		}
 		
+		if(uri.contains("emailCheck.do")||uri.contains("nicknameCheck.do")||uri.contains("pwChange.do")) {
+			log.debug(MessageUtil.getMessage("401"));
+			return true;
+		}
+		
 		//로그인,로그아웃 검사
-		if(!req.getHeader("userId").equals("") && !req.getHeader("token").equals("")) {
-			log.debug("로그인 상태");
-			String token = req.getHeader("token");		//헤더로 토큰값 가져오기
-			String user_id = req.getHeader("userId");	//헤더로 ID값 가져오기
+		if(!req.getHeader("user_seq").equals("") && !req.getHeader("user_email").equals("") && !req.getHeader("user_token").equals("")) {
+			log.debug(MessageUtil.getMessage("402"));
+			String user_seq = req.getHeader("user_seq");		//헤더로 seq 	 값 가져오기
+			String user_email = req.getHeader("user_email");	//헤더로 email 값 가져오기
+			String user_token = req.getHeader("user_token");	//헤더로 token 값 가져오기
 			
+			//토큰 복호화
 			TokenManager tokenManager = new TokenManager();
-			Map<String, Object> deToken = tokenManager.decryptToken(token);
-			if(deToken.get("id").equals(user_id)) {	//복호화한 토큰값과 ID 비교
-				if(uri.startsWith("/cooking/main/login.do")||uri.startsWith("/cooking/main/resist.do")) {
-					log.debug("로그인 상태 : 로그인,회원가입 페이지 접근불가");
+			Map<String, Object> deToken = tokenManager.decryptToken(user_token);
+			
+			//복호화한 토큰값과 seq,email 비교
+			if(deToken.get("user_seq").equals(user_seq) && deToken.get("user_email").equals(user_email)) {
+				if(uri.contains("login.do")||uri.contains("userCreate.do")) {
+					log.debug(MessageUtil.getMessage("400"));
 					return false;
 				}
 			}
 		}else {
-			log.debug("로그아웃 상태");
-			if(!(uri.startsWith("/cooking/main/login.do")||uri.startsWith("/cooking/main/resist.do"))) {
-				log.debug("로그아웃 상태 : 로그인,회원가입 페이지외에 접근불가");
+			log.debug(MessageUtil.getMessage("403"));
+			if(!(uri.contains("login.do")||uri.contains("userCreate.do"))) {
+				log.debug(MessageUtil.getMessage("400"));
 				return false;
 			}
 		}
 		
+		log.debug(MessageUtil.getMessage("401"));
 		return true;
 	}
 	
